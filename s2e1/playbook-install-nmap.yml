@@ -20,8 +20,22 @@
 # Play
 - hosts: app_hosting
   tasks: 
-        - name: Create directory /tmp/toto
+        - name: Create directory /tmp/s2e1/
           file:
-                  path: /tmp/toto/
+                  path: /tmp/s2e1/
                   state: directory
+        - name: Create a file 
+          copy:
+                  dest: /tmp/s2e1/demo.txt
+                  content: |
+                    demo
+        - name: Create directory /tmp/s2e2/
+          file:
+                  path: /tmp/s2e2/
+                  state: directory
+        - name: Copy demo to demo2
+          file:
+                  src: /tmp/s2e1/demo.txt
+                  dest: /tmp/s2e1/demo2.txt
+
 
