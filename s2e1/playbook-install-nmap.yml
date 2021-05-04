@@ -17,4 +17,11 @@
             apt:
                     name: apache2
                     state: present
-                    
+# Play
+- hosts: app_hosting
+  tasks: 
+        - name: Create directory /tmp/toto
+          file:
+                  path: /tmp/toto/
+                  state: directory
+
