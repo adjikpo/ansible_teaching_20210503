@@ -34,7 +34,7 @@
                   path: /tmp/s2e2/
                   state: directory
         - name: Copy demo to demo2
-          file:
+          copy:
                   src: /tmp/s2e1/demo.txt
                   dest: /tmp/s2e2/demo2.txt
 
