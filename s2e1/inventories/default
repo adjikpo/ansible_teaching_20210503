@@ -1,0 +1,30 @@
+##
+## Inventaire de dev
+##
+
+## Host
+
+server0 ansible_host=192.168.50.10 ansible_user=root
+server1 ansible_host=192.168.50.20 ansible_user=root
+server2 ansible_host=192.168.50.30 ansible_user=root
+control ansible_host=192.168.50.250 ansible_user=root
+
+## Groupes
+
+[role_control]
+control
+
+[role_hosting]
+server0
+server1
+server2
+
+[app_hosting]
+server0
+
+[db_hosting]
+server1
+
+[fs_hosting]
+server2
+
