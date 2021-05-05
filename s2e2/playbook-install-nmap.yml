@@ -1,0 +1,60 @@
+---
+# Ce play
+- hosts: role_hosting
+  
+  vars: 
+    required_packages:
+      - nmap
+      - apache2
+ 
+  tasks:
+
+    - name: "verifions le nom et fitec_episode des machines"
+      debug:
+        msg: "{{ inventory_hostname }} has episode {{ fitec_episode }}, with system {{ ansible_facts['all_ipv4_addresses'] }}"
+
+    - name: "installer plusieurs paquets debian"
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ required_packages }}"
+
+    - name: "créer le dossier /tmp/{{ fitec_episode }}/"
+      file:
+        state: directory
+        path: "/tmp/{{ fitec_episode }}"
+ 
+    - name: "créer un fichier /tmp/{{ fitec_episode }}/demo avec le texte 'demo' dedans"
+      copy:
+        content: "demo"
+        dest: "/tmp/{{ fitec_episode }}/demo"
+ 
+    - name: "créer le dossier /tmp/{{ fitec_episode }}/"
+      file:
+        state: directory
+        path: "/tmp/{{ fitec_episode }}"
+
+    - name: "copier ce fichier vers /tmp/{{ fitec_episode }}/demo2"
+      copy:
+        remote_src: yes
+        src: "/tmp/{{ fitec_episode }}/demo"
+        dest: "/tmp/{{ fitec_episode }}/demo2"
+      # copy:
+      #   src: /tmp/{{ fitec_episode }}/demo
+      #   dest: /tmp/{{ fitec_episode }}/demo2
+      # delegate_to: "{{ inventory_hostname }}"
+
+    - name: "lister tous les fichiers et dossiers qui sont présents dans /tmp"
+      command: find /tmp
+
+    - name: "lister tous les fichiers et dossiers qui sont présents dans /tmp et rediriger vers /tmp/listing"
+      shell: 
+        cmd: find /tmp > /tmp/listing
+        creates: /tmp/listing
+
+    - name: "copier ce fichier vers /tmp/{{ fitec_episode }}/demo2"
+      copy:
+        remote_src: yes
+        src: "/tmp/{{ fitec_episode }}/demo"
+        dest: "/tmp/{{ fitec_episode }}/demo2"
+

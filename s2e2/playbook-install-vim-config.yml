@@ -1,0 +1,14 @@
+---
+# Ce play
+- hosts: role_hosting
+  
+  tasks:
+    - name: "install vim configuration"
+      template:
+        src: templates/dot.vimrc.j2
+        dest: "/home/vagrant/.vimrc"
+        owner: vagrant
+        group: vagrant
+      when: enable_vim == True
+
+

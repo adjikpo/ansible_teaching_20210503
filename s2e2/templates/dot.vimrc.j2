@@ -1,0 +1,11 @@
+
+" configuration for {{ ansible_facts['nodename'] }}
+
+{% if vim_syntax %}
+syntax on
+{% endif %}
+
+{% if vim_yaml %}
+autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
+{% endif %}
+

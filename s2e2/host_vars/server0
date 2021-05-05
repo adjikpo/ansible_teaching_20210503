@@ -1,0 +1,8 @@
+
+vim_syntax: true
+vim_yaml: false
+
+required_packages: 
+  - nmap
+  - nginx
+
