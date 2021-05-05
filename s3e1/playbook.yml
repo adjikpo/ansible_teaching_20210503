@@ -43,6 +43,7 @@
   ## A5 Virtualhosts
     - name: Create 2 virtualhosts 
       copy:
+        remote_src: yes
         src: files/{{ item }}
         dest: /etc/apache2/sites-available/{{ item }}
       with_items:
