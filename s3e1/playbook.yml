@@ -4,7 +4,7 @@
 - hosts: role_hosting
   tasks:
 
-  ##A2 Install Apache & php7.4
+  ##A2 Install Apache & php7.3
 
     - name: Install apache2 
       apt: 
@@ -16,11 +16,6 @@
         state: present
         
   ## A3 Download Dokuwiki
-
-    - name: Dokuwiki check 
-      stat:
-        path: /usr/src/dokuwiki
-      register: dokuwiki_directory
 
     - name: Download dokuwiki
       get_url:
@@ -40,3 +35,12 @@
     - name: Rename dokuwiki 2020-07-29 directory to dokuwiki 
       command: mv /usr/src/dokuwiki-2020-07-29 /usr/src/dokuwiki
       when: not dokuwiki_directory.stat.exists or not dokuwiki_directory.stat.isdir
+
+  ## A5 Virtualhosts
+    - name: Create 2 virtualhosts 
+      copy:
+        src: files/{{ item }}
+        dest: /etc/apache2/sites-available/{{ item }}
+      with_items:
+        - recettes-wiki.conf
+        - politique-wiki.conf
