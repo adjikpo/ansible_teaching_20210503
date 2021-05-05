@@ -27,3 +27,12 @@
         url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
         dest: /usr/src
       when: not dokuwiki_directory.stat.exists or not dokuwiki_directory.stat.isdir
+
+  ## A4 Unzip Dokuwiki
+
+    - name: Unzip dokuwiki
+      unarchive:
+        remote_src: yes 
+        src: /usr/src/dokuwiki-stable.tgz
+        dest: /usr/src
+      when: not dokuwiki_directory.stat.exists or not dokuwiki_directory.stat.isdir
