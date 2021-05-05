@@ -42,23 +42,16 @@
 
   ## A5 Virtualhosts
 
-    - name: Create files directory
+    - name: Create config directory
       file:
-        path: files/
+        path: "/tmp/config"
         state: directory
-
-    - name: Create 2 virtualhosts config
-      copy:
-        dest: /files/{{ item }}
-      with_items:
-          - recettes-wiki.conf
-          - politique-wiki.conf
 
     - name: Copy 2 virtualhosts to server0
       copy:
         remote_src: yes
-        src: files/{{ item }}
-        dest: /etc/apache2/sites-available/{{ item }}
+        src: "/tmp/config/{{ item }}"
+        dest: "/etc/apache2/sites-available/{{ item }}"
       with_items:
         - recettes-wiki.conf
         - politique-wiki.conf
