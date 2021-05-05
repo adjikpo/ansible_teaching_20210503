@@ -42,15 +42,10 @@
 
   ## A5 Virtualhosts
 
-    - name: Create config directory
-      file:
-        path: "/tmp/config"
-        state: directory
-
     - name: Copy 2 virtualhosts to server0
       copy:
         remote_src: yes
-        src: "/tmp/config/{{ item }}"
+        src: "/templates/config.vh.j2"
         dest: "/etc/apache2/sites-available/{{ item }}"
       with_items:
         - recettes-wiki.conf
