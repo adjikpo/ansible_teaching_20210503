@@ -41,7 +41,20 @@
       when: dokuwiki_directory.stat.exists and not dokuwiki_directory.stat.isdir
 
   ## A5 Virtualhosts
-    - name: Create 2 virtualhosts 
+
+    - name: Create files directory
+      file:
+        path: files/
+        state: directory
+
+    - name: Create 2 virtualhosts config
+      copy:
+        dest: /files/{{ item }}
+      with_items:
+          - recettes-wiki.conf
+          - politique-wiki.conf
+
+    - name: Copy 2 virtualhosts to server0
       copy:
         remote_src: yes
         src: files/{{ item }}
