@@ -1,0 +1,13 @@
+---
+# Play
+
+- hosts: role_hosting
+  tasks:
+    - name: Install php7.4
+      apt:
+        name: php7.4
+        state: present
+    - name: Install apache2 
+      apt: 
+        name: apache2
+        state: present

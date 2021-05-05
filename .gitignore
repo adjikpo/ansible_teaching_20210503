@@ -3,3 +3,4 @@
 /ansible_rsa.pub
 /githosting_rsa
 /githosting_rsa.pub
+.DS_Store

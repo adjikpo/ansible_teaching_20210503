@@ -1,0 +1,16 @@
+## 
+## Inventory
+## 
+
+# Hosts list
+
+server0 ansible_user=root
+control ansible_user=root
+
+# Groups list
+
+[role_control]
+control
+
+[role_hosting]
+server0
