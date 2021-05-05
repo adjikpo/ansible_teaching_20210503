@@ -15,3 +15,15 @@
         name: php7.3
         state: present
         
+  ## A3 Download Dokuwiki
+
+    - name: Dokuwiki check 
+      stat:
+        path: /usr/src/dokuwiki
+      register: dokuwiki_directory
+
+    - name: Download dokuwiki
+      get_url:
+        url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
+        dest: /usr/src
+      when: not dokuwiki_directory.stat.exists or not dokuwiki_directory.stat.isdir
