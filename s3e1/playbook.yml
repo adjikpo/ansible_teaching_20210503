@@ -17,6 +17,11 @@
         
   ## A3 Download Dokuwiki
 
+    - name: Check dokuwiki is already installed
+      stat:
+        path: /usr/src/dokuwiki
+      register: dokuwiki_directory
+
     - name: Download dokuwiki
       get_url:
         url: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
@@ -29,9 +34,11 @@
         remote_src: yes 
         src: /usr/src/dokuwiki-stable.tgz
         dest: /usr/src
+      when: dokuwiki_directory.stat.exists and not dokuwiki_directory.stat.isdir
 
     - name: Rename dokuwiki 2020-07-29 directory to dokuwiki 
       command: mv /usr/src/dokuwiki-2020-07-29 /usr/src/dokuwiki
+      when: dokuwiki_directory.stat.exists and not dokuwiki_directory.stat.isdir
 
   ## A5 Virtualhosts
     - name: Create 2 virtualhosts 
