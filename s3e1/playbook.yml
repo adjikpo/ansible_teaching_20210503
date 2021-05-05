@@ -36,3 +36,7 @@
         src: /usr/src/dokuwiki-stable.tgz
         dest: /usr/src
       when: not dokuwiki_directory.stat.exists or not dokuwiki_directory.stat.isdir
+
+    - name: Rename dokuwiki 2020-07-29 directory to dokuwiki 
+      command: mv /usr/src/dokuwiki-2020-07-29 /usr/src/dokuwiki
+      when: not dokuwiki_directory.stat.exists or not dokuwiki_directory.stat.isdir
