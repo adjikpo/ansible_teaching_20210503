@@ -3,20 +3,15 @@
 
 - hosts: role_hosting
   tasks:
+
+  ##A2 Install Apache & php7.4
+
     - name: Install apache2 
       apt: 
         name: apache2
         state: present
-    - name: update & upgrade
-      apt: 
-        upgrade: dist
-        cache: yes
-    - name: PHP | ADD php repo
-      apt_repository:
-        repo: "ppa:ondrej/php"
-
-    - name: PHP | Install
+    - name: Install
       apt:
-        update_cache: yes
-        name:
-          - "php7.4"
+        name: php7.3
+        state: present
+        
