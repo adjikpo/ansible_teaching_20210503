@@ -1,0 +1,16 @@
+---
+# vim: set ts=2 sw=2 et:
+dokuwiki_version: 2020-07-29
+dokuwiki_checksum: md5:8867b6a5d71ecb5203402fe5e8fa18c9
+dokuwiki_sites:
+  - domain: politique.wiki
+    config: politique-wiki
+    ip: 192.168.50.10
+  - domain: recettes.wiki
+    config: recettes-wiki
+    ip: 192.168.50.10
+
+# ces variables sont définies dans vault.yml
+extrauser_username: 
+extrauser_password: 
+

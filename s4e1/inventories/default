@@ -1,0 +1,37 @@
+## 
+## Inventaire de développement
+## 
+
+# Liste des hosts, 
+# - en vrac
+# - mais avec des parametres
+
+server0 ansible_user=root
+server1 ansible_user=root
+server2 ansible_user=root
+control ansible_user=root
+
+# La liste des groupes
+# - avec les hosts qui vont dedans
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[role_control]
+control
+
+[role_hosting]
+server0
+# server1
+# server2
+
+
+[app_hosting]
+server0
+
+[db_hosting]
+server1
+
+[fs_hosting]
+server2
+

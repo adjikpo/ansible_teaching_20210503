@@ -1,0 +1,12 @@
+---
+# vim: set ts=2 sw=2 smarttab et:
+
+- hosts: role_hosting
+  tasks:
+    - name: (demo) Add user
+      user:
+        name: "{{ extrauser_username }}"
+
+    - name: (demo) Change user password
+      shell: echo "{{ extrauser_username }}:{{ extrauser_password }}" |chpasswd 
+

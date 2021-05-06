@@ -43,10 +43,9 @@
   ## A5 Virtualhosts
 
     - name: Copy 2 virtualhosts to server0
-      copy:
-        remote_src: yes
+      template:
         src: "/templates/config.vh.j2"
-        dest: "/etc/apache2/sites-available/{{ item }}"
+        dest: "/etc/apache2/sites-available/{{ item.config }}.conf"
       with_items:
         - recettes-wiki.conf
         - politique-wiki.conf

@@ -1,0 +1,88 @@
+---
+# vim: set ts=2 sw=2 smarttab et:
+
+- hosts: role_control
+  tasks:
+    - name: Install rsync on control
+      apt: 
+        name: rsync
+        state: present
+
+    - name: Add lines for remote host/domains
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item.ip }} {{ item.domain }}"
+      with_items: "{{ dokuwiki_sites }}"
+
+- hosts: role_hosting
+  tasks:
+    - name: (A2) Install Apache et PHP
+      apt: 
+        name:
+          - rsync
+          - apache2
+          - php7.3
+        state: present
+      
+    - name: (A3) Download Dokuwiki
+      get_url:
+        url: "https://download.dokuwiki.org/src/dokuwiki/dokuwiki-{{ dokuwiki_version }}.tgz"
+        checksum: "{{ dokuwiki_checksum }}"
+        dest: "/usr/src/dokuwiki-{{ dokuwiki_version }}.tgz"
+
+    - name: (A4) Check dokuwiki is already installed
+      stat:
+        path: /usr/src/dokuwiki
+      register: dokuwiki_directory
+
+    - name: Unzip dokuwiki
+      unarchive:
+        remote_src: yes 
+        src: "/usr/src/dokuwiki-{{ dokuwiki_version }}.tgz"
+        dest: /usr/src
+      when: not dokuwiki_directory.stat.exists
+
+    - name: "Rename dokuwiki {{ dokuwiki_version }} directory to dokuwiki(A VIRER)"
+      command: "mv /usr/src/dokuwiki-{{ dokuwiki_version }} /usr/src/dokuwiki"
+      when: not dokuwiki_directory.stat.exists
+
+    - name: (B1) Create a directory per site (A VIRER)
+      file:
+        state: directory
+        path: "/var/www/{{ item.config }}"
+        owner: www-data
+        group: www-data
+      with_items: "{{ dokuwiki_sites }}"
+
+    - name: Synchronize dokuwiki with destination directory A OPTIMISER / CORRIGER
+      synchronize: 
+        # archive: true
+        src: /usr/src/dokuwiki/
+        dest: "/var/www/{{ item.config }}/"
+      with_items: "{{ dokuwiki_sites }}"
+      delegate_to: "{{ inventory_hostname }}"
+
+    - name: Make sure permissions are ok
+      file:
+        path: "/var/www/{{ item.config }}/"
+        state: directory
+        recurse: true
+        group: www-data
+        owner: www-data
+      with_items: "{{ dokuwiki_sites }}"
+
+    - name: (A5) Install virtualhosts configuration
+      template:
+        src: templates/etc.apache2.site-available.site.conf.j2
+        dest: "/etc/apache2/sites-available/{{ item.config }}.conf"
+      with_items: "{{ dokuwiki_sites }}"
+
+    - name: Enable virtualhosts configuration (A OPTIMISER)
+      command: "a2ensite {{ item.config }}"
+      with_items: "{{ dokuwiki_sites }}"
+
+    - name: Reload apache service, in all cases
+      service:
+        name: apache2
+        state: reloaded
+
